@@ -4,11 +4,18 @@
 p, h3{
     margin: 0;
 }
+
+.map{
+    height: 100vh;
+    width: 100%;
+}
+
 .balloon{
     height: 530px;
     width: 380px;
     background-color: white;
     border-radius: 8px;
+    position: absolute;
 }
 .header__balloon{
     min-height: 42px;
@@ -24,9 +31,6 @@ p, h3{
 .header__balloon .geo{
     position: relative;
     top: 1px;
-}
-.close{
-    margin-left: auto;
 }
 .wrapper{
     display: flex;
@@ -90,12 +94,6 @@ p, h3{
     border-radius: 15px;
     border: none;
     margin-top: 8px;
-}
-body{
-    background-color: grey;
-}
-.close-popup{
-    display: none;
 }
 input::-webkit-input-placeholder { color: #c5c5c5; }
 input::-moz-placeholder { color: #c5c5c5; }

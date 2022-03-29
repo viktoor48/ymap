@@ -5,45 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Яндекс карты</title>
-    <link rel="stylesheet" href="balloon.css">
+    <link rel="stylesheet" href="style.css">
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript"></script>
     <script src="ymap.js"></script>
-    <script src="balloon.js"></script>
-    <style>
-        .map{
-            height: 100vh;
-            width: 100%;
-        }
-        .map__hint {
-            padding: 20px;
-            min-height: 55px;
-            min-width: 195px;
-            font-size: 20px;
-            line-height: 1;
-            color: #ffffff;
-            background-color: #f9b43b;
-            background-image: linear-gradient(to top, #f9b43b 0%, #eb8c38 48%, #f9b43b 74%, #f9b43b 100%);
-            border-radius: 20px;
-        }
-
-        .map__balloon {
-            padding: 20px;
-            font-size: 30px;
-            line-height: 1;
-            color: #ffffff;
-            background-color: #f9b43b;
-            background-image: linear-gradient(to top, #f9b43b 0%, #eb8c38 48%, #f9b43b 74%, #f9b43b 100%);
-            border-radius: 20px;
-        }
-
-        .map__burger-img {
-            float: right;
-            height: 50px;
-            width: 50px;
-        }
-    </style>
+    <script src="js.js"></script>
 </head>
 <body>
     <div id="map" class="map"></div>
+
+    <div class="balloon">
+        <div class="header__balloon">
+            <div class="wrapper">
+                <div>
+                    <img class="geo" src="image/geo.png" alt="">
+                    <p id="address" class="head-address">Невский пр., 78, Санкт-Петербург, 191025</p>
+                </div>
+                <a href="#"><img id="close" src="image/close.png"></a>
+            </div>
+        </div>
+        <div class="main">
+            <textarea class="input-textarea output" id="comments" readonly>Отзывов пока нет...</textarea>
+            <div class="line"></div>
+            <div class="reviews">
+                <h3 class="orange-text">Ваш отзыв</h3>
+                <input class="input-text" id="name" placeholder="Ваше имя" type="text">
+                <input class="input-text" id="reviews" placeholder="Ваш отзыв" type="text">
+                <textarea class="input-textarea" id="input-impression" placeholder="Поделитесь впечатлениями" name=""></textarea>
+                <div class="btn-block">
+                    <button class="btn" id="button-add" >Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
