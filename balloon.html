@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="balloon.css">
+</head>
+<body>
+    <div class="balloon">
+        <div class="header__balloon">
+            <div class="wrapper">
+                <div>
+                    <img class="geo" src="image/geo.png" alt="">
+                    <p class="head-address">Невский пр., 78, Санкт-Петербург, 191025</p>
+                </div>
+                <a href="#"><img class="close" src="image/close.png"></a>
+            </div>
+        </div>
+        <div class="main">
+            <textarea class="input-textarea output" id="reviews-output" readonly></textarea>
+            <div class="line"></div>
+            <div class="reviews">
+                <h3 class="orange-text">Ваш отзыв</h3>
+                <input class="input-text" id="name" placeholder="Ваше имя" type="text">
+                <input class="input-text" id="reviews" placeholder="Ваш отзыв" type="text">
+                <textarea class="input-textarea" id="input-impression" placeholder="Поделитесь впечатлениями" name=""></textarea>
+                <div class="btn-block">
+                    <button class="btn" id="button-add" >Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="balloon.js"></script>
+</body>
+</html>
