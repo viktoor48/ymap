@@ -59,11 +59,21 @@ function init() {
         openBalloon();
 
         myPlacemark = createPlacemark(coordinates);
-        getAdress(coordinates);
+        getAddress(coordinates);
     });
 
     function createPlacemark(coord) {
         return new ymaps.Placemark(coord);
+    }
+
+    function getAddress() {
+
+    }
+
+    function openBalloon(event) {
+        balloon.style.top = event.clientY + 'px';
+        balloon.style.left = event.clientX + 'px';
+        balloon.style.display = 'block';
     }
 }
 
