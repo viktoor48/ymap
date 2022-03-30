@@ -10,9 +10,6 @@ const inputReviews = document.querySelector('#reviews');
 const input_impression = document.querySelector('#input-impression');
 const button_add = document.querySelector('#button-add');
 const closeButton = document.querySelector('#close');
-console.log(head_address);
-console.log(balloon);
-console.log(comments);
 
 let placemarks = [];
 
@@ -99,6 +96,7 @@ function init() {
 
     closeButton.addEventListener('click', function () {
        balloon.style.display = 'none';
+       clearInputs();
     });
 
     function clearInputs() {
@@ -106,6 +104,79 @@ function init() {
         inputReviews.value = '';
         input_impression.value = '';
     }
+
+    function openBalloonFull() {
+        head_address.textContent = '';
+        comments.textContent = '';
+        let adressLink = document.querySelector('.balloon__address_link');
+
+        for (let placemark of placemarks) {
+            if (adressLink === placemark.place) {
+                head_address.textContent = placemark.place;
+                comments.textContent += placemark.commentContent;
+            }
+        }
+
+        balloon.style.top = event.clientY + "px";
+        balloon.style.left = event.clientX + "px";
+        balloon.style.display = "block";
+    }
+
+    button_add.addEventListener('click', function () {
+        if (inputName.value && inputReviews.value && input_impression.value) {
+            let adressLink = head_address.textContent;
+
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = date.getMonth();
+            let day = date.getDay();
+            let hours = date.getHours();
+            let minutes = date.getMinutes();
+            let seconds = date.getSeconds();
+
+            let currentTime = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
+
+            //создаем метку
+            let newPlacemark = new ymaps.Placemark(
+                coordinates,
+                {
+                    balloonContentHeader: inputReviews.value,
+                    balloonContentBody: `<a onclick="openBalloonFull()" class="balloon__address_link">${adressLink}</a><br><br>${input_impression.value}<br><br>`,
+                    balloonContentFooter: currentTime
+                },
+                {
+                    preset: 'twirl#invertedVioletClusterIcons',
+                    draggable: false,
+                    OpenBalloonOnClick: false
+                }
+            );
+
+            //добавляем метку в кластер и массив placemarks
+            map.geoObjects.add(newPlacemark);
+            clusterer.add(newPlacemark);
+            placemarks.push(newPlacemark);
+
+            if (comments.textContent === 'Отзывов пока нет...') {
+                comments.textContent = '';
+            }
+             newPlacemark.commentContent = `<div><span><b>${inputName.value}</b></span>
+            <span>${inputPlace.value}</span>
+            <span>${currentTime}:</span><br>
+            <span>${inputText.value}</span></div><br>`;
+            comments.textContent += newPlacemark.commentContent;
+            newPlacemark.place = head_address.textContent;
+
+            clearInputs();
+
+            newPlacemark.events.add('click', function () {
+                openBalloon();
+                comments.textContent = newPlacemark.commentContent;
+                head_address.textContent = newPlacemark.place;
+            });
+        } else {
+            alert('Заполните путстые поля');
+        }
+    });
 }
 
 //
