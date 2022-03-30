@@ -6,9 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Яндекс карты</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш API-ключ&lang=ru_RU" type="text/javascript"></script>
-    <script src="ymap.js"></script>
-    <script src="js.js"></script>
+    <script type="text/javascript" src="https://api-maps.yandex.ru/2.1/?lang=ru_RU&apikey=be01bb72-15a3-4c22-bdcd-121016d2c0d9"></script>
 </head>
 <body>
     <div id="map" class="map"></div>
@@ -18,9 +16,9 @@
             <div class="wrapper">
                 <div>
                     <img class="geo" src="image/geo.png" alt="">
-                    <p id="address" class="head-address">Невский пр., 78, Санкт-Петербург, 191025</p>
+                    <p id="address" class="head-address"></p>
                 </div>
-                <a href="#"><img id="close" src="image/close.png"></a>
+                <a href="#"><img id="close" class="btn_close" src="image/close.png"></a>
             </div>
         </div>
         <div class="main">
@@ -37,5 +35,6 @@
             </div>
         </div>
     </div>
+    <script src="ymap.js"></script>
 </body>
 </html>

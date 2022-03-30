@@ -5,11 +5,14 @@ new Promise(resolve => ymaps.ready(resolve))
 const balloon = document.querySelector('.balloon');
 const head_address = document.querySelector('#address');
 const comments = document.querySelector('#comments');
-const name = document.querySelector('#name');
-const reviews = document.querySelector('#reviews');
+const inputName = document.querySelector('#name');
+const inputReviews = document.querySelector('#reviews');
 const input_impression = document.querySelector('#input-impression');
 const button_add = document.querySelector('#button-add');
 const closeButton = document.querySelector('#close');
+console.log(head_address);
+console.log(balloon);
+console.log(comments);
 
 let placemarks = [];
 
@@ -50,6 +53,7 @@ function init() {
     clusterer.add(placemarks);
     map.geoObjects.add(clusterer);
 
+    //слушаем клик по карте
     map.events.add('click', function (e) {
        coordinates = e.get('coords');
        //получаем координаты щелчка
@@ -62,18 +66,45 @@ function init() {
         getAddress(coordinates);
     });
 
-    function createPlacemark(coord) {
-        return new ymaps.Placemark(coord);
+    function createPlacemark(coords) {
+        return new ymaps.Placemark(coords);
     }
 
-    function getAddress() {
+    // Определение адреса по координатам (обратное геокодирование).
+    function getAddress(coords) {
+        ymaps.geocode(coords).then(function (res) {
+            let firstGeoObject = res.geoObjects.get(0);
 
+            myPlacemark.properties
+                .set({
+                    // Формируем строку с данными об объекте.
+                    iconCaption: [
+                        // Название населенного пункта или вышестоящее административно-территориальное образование.
+                        firstGeoObject.getLocalities().length ? firstGeoObject.getLocalities() : firstGeoObject.getAdministrativeAreas(),
+                        // Получаем путь до топонима, если метод вернул null, запрашиваем наименование здания.
+                        firstGeoObject.getThoroughfare() || firstGeoObject.getPremise()
+                    ],
+                    // В качестве контента балуна задаем строку с адресом объекта.
+                    balloonContent: firstGeoObject.getAddressLine()
+                });
+            head_address.textContent = firstGeoObject.getAddressLine();
+        });
     }
 
-    function openBalloon(event) {
+    function openBalloon() {
         balloon.style.top = event.clientY + 'px';
         balloon.style.left = event.clientX + 'px';
         balloon.style.display = 'block';
+    }
+
+    closeButton.addEventListener('click', function () {
+       balloon.style.display = 'none';
+    });
+
+    function clearInputs() {
+        inputName.value = '';
+        inputReviews.value = '';
+        input_impression.value = '';
     }
 }
 
