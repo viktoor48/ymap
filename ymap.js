@@ -88,51 +88,23 @@ function init() {
         });
     }
 
-    function openBalloon() {
-        balloon.style.top = event.clientY + 'px';
-        balloon.style.left = event.clientX + 'px';
-        balloon.style.display = 'block';
-    }
-
-    closeButton.addEventListener('click', function () {
-       balloon.style.display = 'none';
-       clearInputs();
-    });
-
-    function clearInputs() {
-        inputName.value = '';
-        inputReviews.value = '';
-        input_impression.value = '';
-    }
-
-    function openBalloonFull() {
-        head_address.textContent = '';
-        comments.textContent = '';
-        let adressLink = document.querySelector('.balloon__address_link');
-
-        for (let placemark of placemarks) {
-            if (adressLink === placemark.place) {
-                head_address.textContent = placemark.place;
-                comments.textContent += placemark.commentContent;
-            }
-        }
-
-        balloon.style.top = event.clientY + "px";
-        balloon.style.left = event.clientX + "px";
-        balloon.style.display = "block";
-    }
-
     button_add.addEventListener('click', function () {
         if (inputName.value && inputReviews.value && input_impression.value) {
             let adressLink = head_address.textContent;
 
             let date = new Date();
             let year = date.getFullYear();
-            let month = date.getMonth();
-            let day = date.getDay();
+            let month = date.getMonth() + 1;
+            let day = date.getDate();
             let hours = date.getHours();
             let minutes = date.getMinutes();
             let seconds = date.getSeconds();
+
+            if (day.length === 1) day = `0${day}`;
+            if (month.length === 1) month = `0${month}`;
+            if (hours.length === 1) hours = `0${hours}`;
+            if (minutes.length === 1) minutes = `0${minutes}`;
+            if (seconds.length === 1) seconds = `0${seconds}`;
 
             let currentTime = `${day}.${month}.${year} ${hours}:${minutes}:${seconds}`;
 
@@ -159,10 +131,7 @@ function init() {
             if (comments.textContent === 'Отзывов пока нет...') {
                 comments.textContent = '';
             }
-             newPlacemark.commentContent = `<div><span><b>${inputName.value}</b></span>
-            <span>${inputPlace.value}</span>
-            <span>${currentTime}:</span><br>
-            <span>${inputText.value}</span></div><br>`;
+             newPlacemark.commentContent = `${inputName.value} ${inputReviews.value} ${currentTime}\n${input_impression.value}\n\n`;
             comments.textContent += newPlacemark.commentContent;
             newPlacemark.place = head_address.textContent;
 
@@ -179,91 +148,36 @@ function init() {
     });
 }
 
-//
-// let placemarks = [
-//     {
-//         latitude:52.60574955,
-//         longitude:39.60493108,
-//         hintContent: '<div class="map__hint">Нижний парк</div>',
-//         balloonContent: ['<div class="balloon">\n' +
-//         '        <div class="header__balloon">\n' +
-//         '            <div class="wrapper">\n' +
-//         '                <div>\n' +
-//         '                    <img class="geo" src="image/geo.png" alt="">\n' +
-//         '                    <p class="head-address">Невский пр., 78, Санкт-Петербург, 191025</p>\n' +
-//         '                </div>\n' +
-//         '                <a href="#"><img class="close" src="image/close.png"></a>\n' +
-//         '            </div>\n' +
-//         '        </div>\n' +
-//         '        <div class="main">\n' +
-//         '            <textarea class="input-textarea output" id="reviews-output" readonly></textarea>\n' +
-//         '            <div class="line"></div>\n' +
-//         '            <div class="reviews">\n' +
-//         '                <h3 class="orange-text">Ваш отзыв</h3>\n' +
-//         '                <input class="input-text" id="name" placeholder="Ваше имя" type="text">\n' +
-//         '                <input class="input-text" id="reviews" placeholder="Ваш отзыв" type="text">\n' +
-//         '                <textarea class="input-textarea" id="input-impression" placeholder="Поделитесь впечатлениями" name=""></textarea>\n' +
-//         '                <div class="btn-block">\n' +
-//         '                    <button class="btn" id="button-add" >Добавить</button>\n' +
-//         '                </div>\n' +
-//         '            </div>\n' +
-//         '        </div>\n' +
-//         '    </div>']
-//     },
-//     {
-//         latitude:52.60550634,
-//         longitude:39.60373979,
-//         hintContent: '<div class="map__hint">Нижний парк</div>',
-//         balloonContent: [
-//             '<div class="map__balloon">',
-//             'Нижний парк',
-//             '</div>'
-//         ]
-//     },
-//     {
-//         latitude:52.60544997,
-//         longitude:39.60712977,
-//         hintContent: '<div class="map__hint">Нижний парк</div>',
-//         balloonContent: [
-//             '<div class="map__balloon">',
-//             'Нижний парк',
-//             '</div>'
-//         ]
-//     }
-// ];
-//
-// let geoObjects = [];
-//
-// function init() {
-//     let map = new ymaps.Map('map', {
-//        center: [52.608826, 39.599229],
-//         zoom: 12,
-//         controls: ['zoomControl'],
-//
-//     });
-//
-//     for (let i = 0;  i < placemarks.length; i++) {
-//         geoObjects[i] = new ymaps.Placemark([placemarks[i].latitude, placemarks[i].longitude], {
-//                 hintContent: placemarks[i].hintContent,
-//                 balloonContent: placemarks[i].balloonContent.join('')
-//             },
-//             {
-//                 iconLayout: 'default#image',
-//                 iconImageHref: 'image/1.png',
-//                 iconImageSize: [44,66],
-//                 iconImageOffset: [-22, -66]
-//             });
-//     }
-//
-//     let clusterer = new ymaps.Clusterer({
-//
-//     });
-//
-//     map.geoObjects.add(clusterer);
-//     clusterer.add(geoObjects);
-// }
-//
-// document.addEventListener('click', function (event) {
-//    console.log(event);
-//    console.log(event.target);
-// });
+function openBalloon() {
+    balloon.style.top = event.clientY + 'px';
+    balloon.style.left = event.clientX + 'px';
+    balloon.style.display = 'block';
+}
+
+closeButton.addEventListener('click', function () {
+    balloon.style.display = 'none';
+    clearInputs();
+});
+
+function clearInputs() {
+    inputName.value = '';
+    inputReviews.value = '';
+    input_impression.value = '';
+}
+
+function openBalloonFull() {
+    head_address.textContent = '';
+    comments.textContent = '';
+    let adressLink = document.querySelector('.balloon__address_link');
+
+    for (let placemark of placemarks) {
+        if (adressLink === placemark.place) {
+            head_address.textContent = placemark.place;
+            comments.textContent += placemark.commentContent;
+        }
+    }
+
+    balloon.style.top = event.clientY + "px";
+    balloon.style.left = event.clientX + "px";
+    balloon.style.display = "block";
+}
